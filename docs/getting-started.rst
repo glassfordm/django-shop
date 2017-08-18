@@ -17,7 +17,6 @@ Here's the 1 minute guide to getting started with django SHOP.
 2. You'll want to use virtualenv::
 
     virtualenv . ; source bin/activate
-    pip install south
     pip install django-shop
     pip install jsonfield
 
@@ -62,7 +61,6 @@ Here's the 1 minute guide to getting started with django SHOP.
         # Uncomment the next line to enable admin documentation:
         'django.contrib.admindocs',
         'polymorphic', # We need polymorphic installed for the shop
-        'south',
         'shop', # The django SHOP application
         'shop.addressmodel', # The default Address and country models
         'myshop', # the project we just created
@@ -181,4 +179,3 @@ or other methods defined in
 .. important:: Remember that cart modifiers are ordered! Like middlewares, the
                order in which they are declared in ``settings.SHOP_CART_MODIFIERS``
                matters.
-
