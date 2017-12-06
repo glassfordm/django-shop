@@ -134,6 +134,12 @@ class CartDetails(ShopTemplateResponseMixin, CartItemDetail):
         quantity parameter to specify how many you wish to add at once
         (defaults to 1)
         """
+        if self.request.method != 'POST':
+            # Since this is defined as CartDetails.as_view(action='post') in urls.py,
+            # Django calls the post method even for non-POST (e.g. GET)
+            # requests, leading to errors since there is no POST data.
+            # Just ignore such requests.
+            return HttpResponse("Method not allowed", status=405)
         product_id = self.request.POST['add_item_id']
         product_quantity = self.request.POST.get('add_item_quantity')
         if not product_quantity:
