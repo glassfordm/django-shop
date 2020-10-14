@@ -101,26 +101,26 @@ class CheckoutSite(object):
         self.unregister(self, 'payment', PaymentBase, payment)
                 
     def get_urls(self):
-        from django.conf.urls.defaults import patterns, url, include
+        from django.conf.urls import url, include
 
         # Checkout-site-wide views.
-        urlpatterns = patterns('',
+        urlpatterns = [
             url(r'^$', self.checkout_view, name='checkout'),
-        )
+        ]
 
         # Add in each model's views.
         for payment in self._payment_registry:
             if hasattr(payment, 'urls'):
-                urlpatterns += patterns('',
+                urlpatterns += [
                     url(r'^shipment/%s/%s/' % payment.url_prefix,
                         include(payment.urls))
-                )
+                ]
         for shipper in self._shippers_registry:
             if hasattr(shipper, 'urls'):
-                urlpatterns += patterns('',
+                urlpatterns += [
                     url(r'^payment/%s/' % payment.url_prefix,
                         include(shipper.urls))
-                )
+                ]
         return urlpatterns
 
     @property
@@ -170,12 +170,12 @@ class PaymentClass(PaymentBase, UrlMixin):
     payment_view = PaymentView.as_view()
     
     def get_urls(self):
-        from django.conf.urls.defaults import patterns, url
+        from django.conf.urls import url
 
-        urlpatterns = patterns('',
+        urlpatterns = [
             url(r'^$', self.payment_view,
                 name='%s_payment' % self.url_prefix),
-        )
+        ]
         return urlpatterns
         
     def urls(self):
