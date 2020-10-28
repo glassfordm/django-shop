@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('date_created', models.DateTimeField(auto_now_add=True)),
                 ('last_updated', models.DateTimeField(auto_now=True)),
-                ('user', models.OneToOneField(null=True, blank=True, to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(null=True, blank=True, to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('quantity', models.IntegerField()),
-                ('cart', models.ForeignKey(related_name='items', to='shop.Cart')),
+                ('cart', models.ForeignKey(related_name='items', to='shop.Cart', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -83,7 +83,7 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField(auto_now_add=True, verbose_name='Created')),
                 ('modified', models.DateTimeField(auto_now=True, verbose_name='Updated')),
                 ('cart_pk', models.PositiveIntegerField(null=True, verbose_name='Cart primary key', blank=True)),
-                ('user', models.ForeignKey(verbose_name='User', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('user', models.ForeignKey(verbose_name='User', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -96,7 +96,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('text', models.TextField(verbose_name='Extra info', blank=True)),
-                ('order', models.ForeignKey(related_name='extra_info', verbose_name='Order', to='shop.Order')),
+                ('order', models.ForeignKey(related_name='extra_info', verbose_name='Order', to='shop.Order', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Order extra info',
@@ -113,7 +113,7 @@ class Migration(migrations.Migration):
                 ('quantity', models.IntegerField(verbose_name='Quantity')),
                 ('line_subtotal', shop.util.fields.CurrencyField(default=Decimal('0.0'), verbose_name='Line subtotal', max_digits=30, decimal_places=2)),
                 ('line_total', shop.util.fields.CurrencyField(default=Decimal('0.0'), verbose_name='Line total', max_digits=30, decimal_places=2)),
-                ('order', models.ForeignKey(related_name='items', verbose_name='Order', to='shop.Order')),
+                ('order', models.ForeignKey(related_name='items', verbose_name='Order', to='shop.Order', on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -128,7 +128,7 @@ class Migration(migrations.Migration):
                 ('amount', shop.util.fields.CurrencyField(default=Decimal('0.0'), verbose_name='Amount', max_digits=30, decimal_places=2)),
                 ('transaction_id', models.CharField(help_text="The transaction processor's reference", max_length=255, verbose_name='Transaction ID')),
                 ('payment_method', models.CharField(help_text='The payment backend used to process the purchase', max_length=255, verbose_name='Payment method')),
-                ('order', models.ForeignKey(verbose_name='Order', to='shop.Order')),
+                ('order', models.ForeignKey(verbose_name='Order', to='shop.Order', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Order payment',
@@ -145,7 +145,7 @@ class Migration(migrations.Migration):
                 ('date_added', models.DateTimeField(auto_now_add=True, verbose_name='Date added')),
                 ('last_modified', models.DateTimeField(auto_now=True, verbose_name='Last modified')),
                 ('unit_price', shop.util.fields.CurrencyField(default=Decimal('0.0'), verbose_name='Unit price', max_digits=30, decimal_places=2)),
-                ('polymorphic_ctype', models.ForeignKey(related_name='polymorphic_shop.product_set+', editable=False, to='contenttypes.ContentType', null=True)),
+                ('polymorphic_ctype', models.ForeignKey(related_name='polymorphic_shop.product_set+', editable=False, to='contenttypes.ContentType', null=True, on_delete=models.CASCADE)),
             ],
             options={
                 'abstract': False,
@@ -161,16 +161,16 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='extraorderpricefield',
             name='order',
-            field=models.ForeignKey(verbose_name='Order', to='shop.Order'),
+            field=models.ForeignKey(verbose_name='Order', to='shop.Order', on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='extraorderitempricefield',
             name='order_item',
-            field=models.ForeignKey(verbose_name='Order item', to='shop.OrderItem'),
+            field=models.ForeignKey(verbose_name='Order item', to='shop.OrderItem', on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='cartitem',
             name='product',
-            field=models.ForeignKey(to='shop.Product'),
+            field=models.ForeignKey(to='shop.Product', on_delete=models.CASCADE),
         ),
     ]
