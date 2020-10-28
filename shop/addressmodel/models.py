@@ -46,7 +46,7 @@ class Address(models.Model):
     city = models.CharField(_('City'), max_length=20)
     state = models.CharField(_('State'), max_length=255)
     country = models.ForeignKey(Country, verbose_name=_('Country'), blank=True,
-                                null=True)
+                                null=True, on_delete=models.CASCADE)
 
     class Meta(object):
         verbose_name = _('Address')
